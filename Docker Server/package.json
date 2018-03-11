@@ -1,0 +1,13 @@
+{
+  "name": "IR-project",
+  "main": "server.js",
+  "dependencies": {
+    "cookie-parser": "~1.0.0",
+    "express": "~4.16.2",
+    "express-session": "~1.0.0",
+    "method-override": "~1.0.0",
+    "follow-redirects": "~1.2.3",
+    "pg-promise": "~8.2.1",
+    "elasticsearch": "^14.1.0"
+  }
+}
