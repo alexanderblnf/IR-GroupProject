@@ -58,19 +58,13 @@ $(document).on('click', '#search-button', function () {
 			divPages.id = 'pages-' + index;
 			divPages.className = 'pages';
 
-			initialList.forEach(function (value, index) {
-				var divInner = document.createElement('div');
-				var tooltip = createTooltip(value);
-
-				divInner.appendChild(tooltip);
-				div.appendChild(divInner);
-			});
+			createListTooltip(initialList, divPages);
 			div.appendChild(divPages);
 			div.appendChild(document.createElement('hr'));
 			container.appendChild(div);
 		});
 
-        $('[data-toggle="tooltip"]').tooltip();
+
 	});
 
 
