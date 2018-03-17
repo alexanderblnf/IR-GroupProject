@@ -1,10 +1,9 @@
 var express  = require('express');
 var app      = express();
 var port = process.env.PORT || 8080;
+var path = require('path');
 
-app.get('/', function(req, res) {
-    res.send('Hello World!!');
-});
+app.use(express.static(path.join(__dirname, 'app/web')));
 
 require('./app/server/routes.js')(app);
 
