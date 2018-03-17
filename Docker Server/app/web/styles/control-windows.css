@@ -1,0 +1,16 @@
+#task-container {
+    margin-bottom: 1vh;
+    font-size: 1.3em;
+}
+
+#search-input-container {
+    margin-bottom: 1vh;
+}
+
+#query-input {
+    font-size: 1em;
+}
+
+#search-button {
+    font-size: 1em;
+}

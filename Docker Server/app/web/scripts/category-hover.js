@@ -1,6 +1,11 @@
 var list = {};
 
 $(document).on('click', '#search-button', function () {
+    if (!started) {
+        started = true;
+        timer();
+    }
+
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/categories/" + query,
@@ -53,35 +58,21 @@ $(document).on('click', '#search-button', function () {
 			divPages.id = 'pages-' + index;
 			divPages.className = 'pages';
 
-			initialList.forEach(function (value) {
-				// Page Title
-				var h4 = document.createElement('h4');
-				h4.className = 'margin-left-1';
+			initialList.forEach(function (value, index) {
+				var divInner = document.createElement('div');
+				var tooltip = createTooltip(value);
 
-				// Page link
-				var a = document.createElement('a');
-				a.href = value.url;
-				a.target = "_blank";
-				a.innerHTML = value.title;
-
-				h4.appendChild(a);
-				divPages.appendChild(h4);
-
-				// Used for summary
-				// if (summary) {
-				// 	var divInner = document.createElement('div');
-				// 	var span = document.createElement('span');
-				// 	span.innerHTML = "DESCRIERE URIASA";
-				//
-				// 	divInner.appendChild(span);
-				// 	divPages.appendChild(divInner);
-				// }
+				divInner.appendChild(tooltip);
+				div.appendChild(divInner);
 			});
 			div.appendChild(divPages);
 			div.appendChild(document.createElement('hr'));
 			container.appendChild(div);
 		});
+
+        $('[data-toggle="tooltip"]').tooltip();
 	});
+
 
 	response.fail(function (xhr, status, error) {
 		console.log(xhr.responseText);
