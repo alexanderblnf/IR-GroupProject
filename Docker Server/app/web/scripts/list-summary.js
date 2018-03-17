@@ -1,4 +1,4 @@
-$('#search-button').on('click', function () {
+$(document).on('click', '#search-button', function () {
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
@@ -6,14 +6,15 @@ $('#search-button').on('click', function () {
 	});
 
 	response.done(function (res) {
-		var result = JSON.parse(res);
+		console.log(res);
+		var result = res;
 		if (result.code !== 200) {
 			console.log(result.response);
 			return;
 		}
 
 		var response = result.response;
-		var container = $('#container');
+		var container = document.getElementById('container');
 
 		response.forEach(function (val, index) {
 			var div = document.createElement('div');
@@ -22,8 +23,9 @@ $('#search-button').on('click', function () {
 			var h3 = document.createElement('h3');
 
 			var a = document.createElement('a');
-			a.href = val.result.URL;
-			a.innerHTML = val.result.title;
+			a.href = val.url;
+			a.target = "_blank";
+			a.innerHTML = val.title;
 			// a.className = 'a-title';
 
 			var divInner = document.createElement('div');

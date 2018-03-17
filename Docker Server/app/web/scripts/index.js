@@ -1,3 +1,3 @@
 $(document).ready(function () {
-    $('body').load('../controlWindow.html');
+    $('#control-window').load('../controlWindow.html');
 });
