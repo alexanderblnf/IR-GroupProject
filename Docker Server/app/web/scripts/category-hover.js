@@ -36,15 +36,15 @@ $(document).on('click', '#search-button', function () {
 				a.innerHTML = value.title;
 				// a.className = 'a-title';
 
+				// Used for summary
 				var divInner = document.createElement('div');
-
 				var span = document.createElement('span');
 				span.innerHTML = "DESCRIERE URIASA";
 
 				h4.appendChild(a);
-				divInner.appendChild(span);
 				div.appendChild(h4);
-				div.appendChild(divInner);
+				// div.appendChild(divInner);
+				// divInner.appendChild(span);
 			});
 			var hr = document.createElement('hr');
 			div.appendChild(hr);

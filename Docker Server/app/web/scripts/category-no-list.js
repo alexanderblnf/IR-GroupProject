@@ -17,35 +17,36 @@ $(document).on('click', '#search-button', function () {
 		var keys = Object.keys(response);
 		var container = document.getElementById('container');
 
-		keys.forEach(function (val, index) {
-			var list = response[val];
+		keys.forEach(function (category) {
+			var list = response[category];
 			console.log(list);
 			var div = document.createElement('div');
-			//div.className = 'box';
 
+			// category
 			var h2 = document.createElement('h2');
-			h2.innerHTML = val;
-
+			h2.innerHTML = category;
 			div.appendChild(h2);
-			list.forEach(function (value, index) {
-				var h4 = document.createElement('h4');
 
+			list.forEach(function (value) {
+				// Page
+				var h4 = document.createElement('h4');
+				// Link
 				var a = document.createElement('a');
 				a.href = value.url;
 				a.target = "_blank";
 				a.innerHTML = value.title;
-				// a.className = 'a-title';
 
+				// Summary
 				var divInner = document.createElement('div');
-
 				var span = document.createElement('span');
 				span.innerHTML = "DESCRIERE URIASA";
 
-				h4.appendChild(a);
-				divInner.appendChild(span);
 				div.appendChild(h4);
+				h4.appendChild(a);
 				div.appendChild(divInner);
+				divInner.appendChild(span);
 			});
+			// Line break to separate categories
 			var hr = document.createElement('hr');
 			div.appendChild(hr);
 

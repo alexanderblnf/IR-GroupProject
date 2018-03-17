@@ -63,7 +63,8 @@ exports.basicSearchWithoutCategories = function (inputQuery, res) {
 
             out['response'].push({
                 title: result['Title'],
-                url: result['URL']
+                url: result['URL'],
+	            category: result['Primary Category']
             });
         });
 

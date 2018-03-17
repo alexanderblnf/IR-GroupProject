@@ -23,10 +23,10 @@ $(document).on('click', '#search-button', function () {
 			var div = document.createElement('div');
 			//div.className = 'box';
 
-			var h2 = document.createElement('h2');
-			h2.innerHTML = val;
+			// var h2 = document.createElement('h2');
+			// h2.innerHTML = val;
+			// div.appendChild(h2);
 
-			div.appendChild(h2);
 			list.forEach(function (value, index) {
 				var h4 = document.createElement('h4');
 
