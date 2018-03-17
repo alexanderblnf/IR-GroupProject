@@ -1,8 +1,4 @@
 $(document).on('click', '#search-button', function () {
-	if (!started) {
-		started = true;
-        timer();
-    }
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
@@ -10,6 +6,7 @@ $(document).on('click', '#search-button', function () {
 	});
 
 	response.done(function (res) {
+		console.log(res);
 		var result = res;
 		if (result.code !== 200) {
 			console.log(result.response);
@@ -33,13 +30,18 @@ $(document).on('click', '#search-button', function () {
 
 			var divInner = document.createElement('div');
 
+			var h4 = document.createElement('h4');
+			h4.innerHTML = "Category: " + val.category;
+
 			var span = document.createElement('span');
 			span.innerHTML = "DESCRIERE URIASA";
 
-			divInner.appendChild(span);
-			h3.appendChild(a);
+
 			div.appendChild(h3);
+			h3.appendChild(a);
+			div.appendChild(h4);
 			div.appendChild(divInner);
+			divInner.appendChild(span);
 			container.appendChild(div);
 		});
 	});

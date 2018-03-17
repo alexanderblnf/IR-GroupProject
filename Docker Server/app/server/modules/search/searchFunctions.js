@@ -15,7 +15,6 @@ exports.basicSearchWithCategories = function (inputQuery, res) {
     }).then(function (resp) {
         var out = {};
         out['code'] = 200;
-        out['response'] = [];
 
         var categories = {};
 
@@ -33,7 +32,7 @@ exports.basicSearchWithCategories = function (inputQuery, res) {
             });
         });
 
-        out['response'].push(categories);
+        out['response'] = categories;
 
         console.log(out);
         res.send(out);
@@ -64,7 +63,9 @@ exports.basicSearchWithoutCategories = function (inputQuery, res) {
 
             out['response'].push({
                 title: result['Title'],
-                url: result['URL']
+                url: result['URL'],
+	            category: result['Primary Category'],
+	            secondaryCategory: result['Secondary Category']
             });
         });
 
