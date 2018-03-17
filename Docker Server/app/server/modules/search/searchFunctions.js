@@ -73,6 +73,7 @@ exports.basicSearchWithoutCategories = function (inputQuery, res) {
         var out = [];
         out['code'] = 500;
         out['response'] = err;
+      
         res.send(out);
     });
 };
