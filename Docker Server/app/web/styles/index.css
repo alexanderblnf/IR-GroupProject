@@ -2,6 +2,8 @@
     white-space: nowrap;
     display: flex;
     align-items: center;
+    padding-bottom: 3vh;
+    border-bottom: 2px solid black;
 }
 
 #control-window * {
@@ -10,6 +12,6 @@
 }
 
 #container, #control-window {
-    padding-left: 1vw;
-    padding-top: 1vh;
+    margin-left: 1vw;
+    margin-top: 1vh;
 }

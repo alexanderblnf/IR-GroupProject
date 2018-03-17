@@ -1,4 +1,9 @@
 $(document).on('click', '#search-button', function () {
+    if (!started) {
+        started = true;
+        timer();
+    }
+
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/categories/" + query,
@@ -19,39 +24,29 @@ $(document).on('click', '#search-button', function () {
 
 		keys.forEach(function (val, index) {
 			var list = response[val];
-			console.log(list);
 			var div = document.createElement('div');
-			//div.className = 'box';
 
 			var h2 = document.createElement('h2');
 			h2.innerHTML = val;
-
 			div.appendChild(h2);
+
 			list.forEach(function (value, index) {
-				var h4 = document.createElement('h4');
-
-				var a = document.createElement('a');
-				a.href = value.url;
-				a.target = "_blank";
-				a.innerHTML = value.title;
-				// a.className = 'a-title';
-
-				// Used for summary
 				var divInner = document.createElement('div');
-				var span = document.createElement('span');
-				span.innerHTML = "DESCRIERE URIASA";
+                var tooltip = createTooltip(value);
 
-				h4.appendChild(a);
-				div.appendChild(h4);
-				// div.appendChild(divInner);
-				// divInner.appendChild(span);
+				divInner.appendChild(tooltip);
+				div.appendChild(divInner);
 			});
+
 			var hr = document.createElement('hr');
 			div.appendChild(hr);
 
 			container.appendChild(div);
 		});
+
+        $('[data-toggle="tooltip"]').tooltip();
 	});
+
 
 	response.fail(function (xhr, status, error) {
 		console.log(xhr.responseText);
