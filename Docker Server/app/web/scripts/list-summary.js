@@ -1,4 +1,5 @@
 $(document).on('click', '#search-button', function () {
+	timer();
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
