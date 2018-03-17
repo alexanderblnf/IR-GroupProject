@@ -1,5 +1,8 @@
 $(document).on('click', '#search-button', function () {
-	timer();
+	if (!started) {
+		started = true;
+        timer();
+    }
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
@@ -7,7 +10,6 @@ $(document).on('click', '#search-button', function () {
 	});
 
 	response.done(function (res) {
-		console.log(res);
 		var result = res;
 		if (result.code !== 200) {
 			console.log(result.response);
