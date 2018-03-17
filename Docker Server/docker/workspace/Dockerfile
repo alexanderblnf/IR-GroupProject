@@ -23,28 +23,24 @@ RUN apt-get update && \
     apt-get install -y \
         nodejs \
         build-essential \
-        postgresql \
-        postgresql-contrib \
+        python2.7 \
+        python-pip \
     && apt-get clean
+
+#############
+# Python Dependencies
+#############
+RUN pip install --upgrade pip
+RUN pip install pandas \
+    elasticsearch
+
 
 RUN npm install -g pm2
 
-RUN touch /var/log/postgres.log
-
-##########
-#Postgres config
-##########
-
-USER postgres
-COPY binary_dump /tmp/binary_dump
-RUN service postgresql start && createdb IR_database && pg_restore --create --exit-on-error --verbose --dbname=IR_database /tmp/binary_dump
 
 #####################################
 # Set Timezone
 #####################################
-
-USER root
-
 ARG TZ=UTC
 ENV TZ ${TZ}
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -55,6 +51,6 @@ WORKDIR /var/www
 # Store all project files in the image
 COPY . /var/www/
 
-EXPOSE 8080
+RUN chmod a+x /var/www/loadElasticsearchData.sh
 
-CMD service postgresql start && tail -F /var/log/postgres.log
+EXPOSE 8080

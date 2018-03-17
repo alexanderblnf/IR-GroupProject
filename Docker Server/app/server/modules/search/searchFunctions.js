@@ -3,17 +3,34 @@ var client = new elasticsearch.Client({
     host: 'http://elasticsearch:9200'
 });
 
-exports.basicSearch = function () {
-    client.ping({
-        // ping usually has a 3000ms timeout
-        requestTimeout: Infinity,
-        // undocumented params are appended to the query string
-        hello: "elasticsearch!"
-    }, function (error) {
-        if (error) {
-            return false;
-        } else {
-            return true;
+exports.basicSearch = function (inputQuery, res) {
+    client.search({
+        body: {
+            query: {
+                match: {
+                    title: inputQuery
+                }
+            },
+            sort: [{
+                time: {
+                    title: 'asc'
+                }
+            }]
+
         }
+    }).then(function (resp) {
+
+        var out = [];
+        resp.hits.hits.forEach(function (val) {
+            var temp = {
+                result: val["_source"]
+            };
+            out.push(temp);
+        });
+
+        res.send(out);
+    }, function (err) {
+        console.log(err);
+        res.status(500).send("Server error");
     });
 };
