@@ -13,19 +13,21 @@ exports.basicSearch = function (inputQuery, res) {
             }
         }
     }).then(function (resp) {
-
         var out = [];
-        console.log(resp);
+	    out['code'] = 200;
+	    out['response'] = [];
         resp.hits.hits.forEach(function (val) {
             var temp = {
                 result: val["_source"]
             };
-            out.push(temp);
+            out['response'].push(temp);
         });
 
         res.send(out);
     }, function (err) {
-        console.log(err);
-        res.status(500).send(err);
+		var out = [];
+	    out['code'] = 500;
+	    out['response'] = err;
+        res.send(out);
     });
 };
