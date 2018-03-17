@@ -3,6 +3,7 @@ $(document).on('click', '#search-button', function () {
 		started = true;
 		timer();
 	}
+
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
