@@ -8,19 +8,14 @@ exports.basicSearch = function (inputQuery, res) {
         body: {
             query: {
                 match: {
-                    title: inputQuery
+                    Title: inputQuery
                 }
-            },
-            sort: [{
-                time: {
-                    title: 'asc'
-                }
-            }]
-
+            }
         }
     }).then(function (resp) {
 
         var out = [];
+        console.log(resp);
         resp.hits.hits.forEach(function (val) {
             var temp = {
                 result: val["_source"]
@@ -31,6 +26,6 @@ exports.basicSearch = function (inputQuery, res) {
         res.send(out);
     }, function (err) {
         console.log(err);
-        res.status(500).send("Server error");
+        res.status(500).send(err);
     });
 };
