@@ -1,0 +1,13 @@
+.align-heading {
+	white-space: nowrap;
+}
+
+.align-heading * {
+	display: inline-block;
+	margin-left: 1vw;
+	margin-bottom: 0;
+}
+
+.margin-left-1 {
+	margin-left: 1vw;
+}

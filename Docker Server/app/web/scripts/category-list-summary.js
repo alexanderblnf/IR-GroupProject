@@ -1,3 +1,5 @@
+var list = {};
+
 $(document).on('click', '#search-button', function () {
 	var query = $('#query-input').val();
 	var response = $.ajax({
@@ -21,7 +23,6 @@ $(document).on('click', '#search-button', function () {
 			var list = response[val];
 			console.log(list);
 			var div = document.createElement('div');
-			//div.className = 'box';
 
 			var h2 = document.createElement('h2');
 			h2.innerHTML = val;
@@ -37,7 +38,6 @@ $(document).on('click', '#search-button', function () {
 				// a.className = 'a-title';
 
 				var divInner = document.createElement('div');
-
 				var span = document.createElement('span');
 				span.innerHTML = "DESCRIERE URIASA";
 

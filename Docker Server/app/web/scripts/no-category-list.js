@@ -1,3 +1,5 @@
+var list = {};
+
 $(document).on('click', '#search-button', function () {
 	var query = $('#query-input').val();
 	var response = $.ajax({
