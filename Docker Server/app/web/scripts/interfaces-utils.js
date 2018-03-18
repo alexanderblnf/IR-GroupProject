@@ -152,15 +152,15 @@ $(document).on('click', '.more-button-cat', function () {
 
 $(document).on('click', '.more-button-list', function () {
 	var id = $(this).attr('id');
-	var next = $('#page-container').find(">:first-child");
+	var next = $('#container').find('div');
 	var nextClass = next.attr('class');
 	var after = next.find('h4').attr('class');
 
-	$('#page-container').empty();
-	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
+	$('#container').empty();
+	// document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
 
 	if (nextClass === 'tooltip-class') {
-		createListTooltip(list, document.getElementById('page-container'));
+		createListTooltip(list, document.getElementById('container'));
 	} else if (after !== undefined) {
 		createList(list, document.getElementById('page-container'), true);
 	} else {

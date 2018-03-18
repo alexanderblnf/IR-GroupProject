@@ -22,6 +22,7 @@ $(document).on('click', '#search-button', function () {
 		var leftFromList = list.length - initialList.length;
 		var innerHTML = 'More(' + leftFromList + ')';
 		var container = document.getElementById('container');
+		container.className = 'margin-left-3';
 
 		// More button
 		var more = document.createElement('button');
@@ -35,7 +36,7 @@ $(document).on('click', '#search-button', function () {
 		pageContainer.id = 'page-container';
 		pageContainer.className = 'margin-left-3';
 
-		createListTooltip(initialList, pageContainer);
+		createListTooltip(initialList, container);
         container.appendChild(pageContainer);
 	});
 

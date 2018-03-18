@@ -32,6 +32,7 @@ function initStatistics() {
 function createTooltip(response) {
     var a = document.createElement('a');
     a.href = response.url;
+	// a.target = "_blank";
     a.setAttribute('data-toggle', 'tooltip');
     a.title = 'DESCRIPTION URIAS';
     a.innerHTML = response.title;
@@ -39,12 +40,14 @@ function createTooltip(response) {
     return a;
 }
 
-$(document).on('.page-links', 'hover', function () {
+$(document).on('mouseover', 'a', function () {
    linksHovered ++;
+   console.log("H: " + linksHovered);
 });
 
-$(document).on('.page-links', 'click', function () {
+$(document).on('click', 'a', function () {
    linksClicked ++;
+   console.log(linksClicked);
 });
 
 $(document).on('click', '#search-button', function () {

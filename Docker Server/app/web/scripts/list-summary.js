@@ -21,6 +21,7 @@ $(document).on('click', '#search-button', function () {
 		var leftFromList = list.length - initialList.length;
 		var innerHTML = 'More(' + leftFromList + ')';
 		var container = document.getElementById('container');
+		container.className = 'margin-left-3';
 
 		// More button
 		var more = document.createElement('button');
