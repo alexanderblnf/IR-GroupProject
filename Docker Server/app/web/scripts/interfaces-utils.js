@@ -24,34 +24,37 @@ function createListInCategory(list, appendTo) {
 	});
 }
 
-function createList(list, container){
+function createList(list, container, hascategory){
 	list.forEach(function (val, index) {
 		var div = document.createElement('div');
 
 		// Page title
 		var h3 = document.createElement('h3');
+		div.appendChild(h3);
 
 		// Page link
 		var a = document.createElement('a');
 		a.href = val.url;
 		a.target = "_blank";
 		a.innerHTML = val.title;
-
-		var divInner = document.createElement('div');
+		h3.appendChild(a);
 
 		// Category
-		var h4 = document.createElement('h4');
-		h4.innerHTML = "Category: " + val.category;
+		if (hascategory) {
+			var h4 = document.createElement('h4');
+			h4.className = 'category';
+			h4.innerHTML = "Category: " + val.category;
+			div.appendChild(h4);
+		}
 
 		// Description
+		var divInner = document.createElement('div');
+		div.appendChild(divInner);
+
 		var span = document.createElement('span');
 		span.innerHTML = "DESCRIERE URIASA";
-
-		div.appendChild(h3);
-		h3.appendChild(a);
-		div.appendChild(h4);
-		div.appendChild(divInner);
 		divInner.appendChild(span);
+
 		container.appendChild(div);
 	});
 }
@@ -149,15 +152,19 @@ $(document).on('click', '.more-button-cat', function () {
 
 $(document).on('click', '.more-button-list', function () {
 	var id = $(this).attr('id');
-	var nextClass = $('#page-container').find(">:first-child").attr('class');
+	var next = $('#page-container').find(">:first-child");
+	var nextClass = next.attr('class');
+	var after = next.find('h4').attr('class');
 
 	$('#page-container').empty();
 	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
 
-	if (nextClass == 'tooltip-class') {
+	if (nextClass === 'tooltip-class') {
 		createListTooltip(list, document.getElementById('page-container'));
+	} else if (after !== undefined) {
+		createList(list, document.getElementById('page-container'), true);
 	} else {
-		createList(list, document.getElementById('page-container'));
+		createList(list, document.getElementById('page-container'), false);
 	}
 });
 

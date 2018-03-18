@@ -35,7 +35,7 @@ $(document).on('click', '#search-button', function () {
 		pageContainer.id = 'page-container';
 		pageContainer.className = 'margin-left-3';
 
-		createList(initialList, pageContainer);
+		createList(initialList, pageContainer, true);
 		container.appendChild(pageContainer);
 	});
 
