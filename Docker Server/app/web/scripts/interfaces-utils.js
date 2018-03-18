@@ -148,10 +148,17 @@ $(document).on('click', '.more-button-cat', function () {
 });
 
 $(document).on('click', '.more-button-list', function () {
+	var id = $(this).attr('id');
+	var nextClass = $('#page-container').find(">:first-child").attr('class');
+
 	$('#page-container').empty();
 	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
 
-	createList(list, document.getElementById('page-container'));
+	if (nextClass == 'tooltip-class') {
+		createListTooltip(list, document.getElementById('page-container'));
+	} else {
+		createList(list, document.getElementById('page-container'));
+	}
 });
 
 

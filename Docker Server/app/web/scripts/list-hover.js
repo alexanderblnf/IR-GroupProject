@@ -1,3 +1,5 @@
+list = [];
+
 $(document).on('click', '#search-button', function () {
 	if (!started) {
 		started = true;
@@ -11,26 +13,30 @@ $(document).on('click', '#search-button', function () {
 	});
 
 	response.done(function (res) {
-		var result = res;
-		if (result.code !== 200) {
-			console.log(result.response);
+		if (res.code !== 200) {
 			return;
 		}
 
-		var response = result.response;
+		list = res.response;
+		var initialList = list.slice(0, 20);
+		var leftFromList = list.length - initialList.length;
+		var innerHTML = 'More(' + leftFromList + ')';
 		var container = document.getElementById('container');
 
-		response.forEach(function (val, index) {
-			var div = document.createElement('div');
-			//div.className = 'box';
+		// More button
+		var more = document.createElement('button');
+		more.type = 'button';
+		more.id = 'more-button';
+		more.className = 'more-button-list';
+		more.innerHTML = innerHTML;
+		container.appendChild(more);
 
-			// Used for summary
-			var tooltip = createTooltip(val);
-			div.appendChild(tooltip);
-			container.appendChild(div);
-		});
+		var pageContainer = document.createElement('div');
+		pageContainer.id = 'page-container';
+		pageContainer.className = 'margin-left-3';
 
-        $('[data-toggle="tooltip"]').tooltip();
+		createListTooltip(initialList, pageContainer);
+        container.appendChild(pageContainer);
 	});
 
 	response.fail(function (xhr, status, error) {
