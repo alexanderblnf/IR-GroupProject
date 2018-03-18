@@ -1,4 +1,11 @@
+var list = [];
+
 $(document).on('click', '#search-button', function () {
+	if (!started) {
+		started = true;
+		timer();
+	}
+
 	var query = $('#query-input').val();
 	var response = $.ajax({
 		url: "/search/basic/" + query,
@@ -6,44 +13,30 @@ $(document).on('click', '#search-button', function () {
 	});
 
 	response.done(function (res) {
-		console.log(res);
-		var result = res;
-		if (result.code !== 200) {
-			console.log(result.response);
+		if (res.code !== 200) {
 			return;
 		}
 
-		var response = result.response;
+		list = res.response;
+		var initialList = list.slice(0, 20);
+		var leftFromList = list.length - initialList.length;
+		var innerHTML = 'More(' + leftFromList + ')';
 		var container = document.getElementById('container');
 
-		response.forEach(function (val, index) {
-			var div = document.createElement('div');
-			//div.className = 'box';
+		// More button
+		var more = document.createElement('button');
+		more.type = 'button';
+		more.id = 'more-button';
+		more.className = 'more-button-list';
+		more.innerHTML = innerHTML;
+		container.appendChild(more);
 
-			var h3 = document.createElement('h3');
+		var pageContainer = document.createElement('div');
+		pageContainer.id = 'page-container';
+		pageContainer.className = 'margin-left-3';
 
-			var a = document.createElement('a');
-			a.href = val.url;
-			a.target = "_blank";
-			a.innerHTML = val.title;
-			// a.className = 'a-title';
-
-			var divInner = document.createElement('div');
-
-			var h4 = document.createElement('h4');
-			h4.innerHTML = "Category: " + val.category;
-
-			var span = document.createElement('span');
-			span.innerHTML = "DESCRIERE URIASA";
-
-
-			div.appendChild(h3);
-			h3.appendChild(a);
-			div.appendChild(h4);
-			div.appendChild(divInner);
-			divInner.appendChild(span);
-			container.appendChild(div);
-		});
+		createList(initialList, pageContainer);
+		container.appendChild(pageContainer);
 	});
 
 	response.fail(function (xhr, status, error) {

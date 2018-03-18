@@ -1,4 +1,4 @@
-function createList(list, appendTo) {
+function createListInCategory(list, appendTo) {
 	list.forEach(function (value) {
 		// Page Title
 		var h4 = document.createElement('h4');
@@ -21,6 +21,38 @@ function createList(list, appendTo) {
 		divInner.appendChild(span);
 		appendTo.appendChild(divInner);
 
+	});
+}
+
+function createList(list, container){
+	list.forEach(function (val, index) {
+		var div = document.createElement('div');
+
+		// Page title
+		var h3 = document.createElement('h3');
+
+		// Page link
+		var a = document.createElement('a');
+		a.href = val.url;
+		a.target = "_blank";
+		a.innerHTML = val.title;
+
+		var divInner = document.createElement('div');
+
+		// Category
+		var h4 = document.createElement('h4');
+		h4.innerHTML = "Category: " + val.category;
+
+		// Description
+		var span = document.createElement('span');
+		span.innerHTML = "DESCRIERE URIASA";
+
+		div.appendChild(h3);
+		h3.appendChild(a);
+		div.appendChild(h4);
+		div.appendChild(divInner);
+		divInner.appendChild(span);
+		container.appendChild(div);
 	});
 }
 
@@ -50,17 +82,17 @@ function displayCategoryList(response, container, hasCategory, hasList) {
 			divCategory.appendChild(h2);
 		}
 
-		// Subcategory
+		// Subcategory button
 		var subcategory = document.createElement('button');
 		subcategory.type = 'button';
 		subcategory.id = 'subcategory-' + index;
 		subcategory.innerHTML = 'Subcategory';
 
-		// More
+		// More button
 		var more = document.createElement('button');
 		more.type = 'button';
 		more.id = 'more-' + index;
-		more.className = 'more-button';
+		more.className = 'more-button-cat';
 		more.innerHTML = innerHTML;
 
 		divCategory.appendChild(subcategory);
@@ -73,7 +105,7 @@ function displayCategoryList(response, container, hasCategory, hasList) {
 		divPages.className = 'pages margin-left-1';
 
 		if(hasList) {
-			createList(initialList, divPages);
+			createListInCategory(initialList, divPages);
 		}
 
 		div.appendChild(divPages);
@@ -96,7 +128,7 @@ function createListTooltip(list, divPages) {
 	$('[data-toggle="tooltip"]').tooltip();
 }
 
-$(document).on('click', '.more-button', function () {
+$(document).on('click', '.more-button-cat', function () {
 	var id = $(this).attr('id');
 	var parent = $(this).closest('div').next('.pages');
 	var nextClass = parent.find(">:first-child").attr('class');
@@ -111,7 +143,15 @@ $(document).on('click', '.more-button', function () {
 	if (nextClass == 'tooltip-class') {
 		createListTooltip(list[index], document.getElementById(parentId));
 	} else {
-		createList(list[index], document.getElementById(parentId), false);
+		createListInCategory(list[index], document.getElementById(parentId), false);
 	}
 });
+
+$(document).on('click', '.more-button-list', function () {
+	$('#page-container').empty();
+	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
+
+	createList(list, document.getElementById('page-container'));
+});
+
 

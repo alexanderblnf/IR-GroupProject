@@ -1,1 +1,7 @@
 Group project for Information Retrieval course - topic Information Retrieval
+
+
+Start project
+1. docker-compose up -d
+2. docker exec -it ir-workspace bash
+3. pm2 start process.json
