@@ -13,4 +13,7 @@ module.exports = function (app) {
 
     var search = require('./modules/search/searchRoutes');
     app.use('/search', search);
+
+    var interactions = require('./modules/interactions/interactionsRoutes');
+    app.use('/interaction', interactions);
 };

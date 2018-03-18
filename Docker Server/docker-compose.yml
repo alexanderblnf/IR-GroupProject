@@ -50,11 +50,40 @@ services:
       networks:
         - esnet
 
+### MySQL Container #############################
+    mysql:
+        container_name: ir-mysql
+        hostname: mysql
+        build:
+          dockerfile: ./docker/mysql/Dockerfile
+          context: ./
+        env_file:
+          - ./docker/development.env
+        ports:
+          - "8086:3306"
+        volumes:
+          - mysql-data:/var/lib/mysql
+        networks:
+          - esnet
+
+### Adminer Container ###########################
+    adminer:
+        container_name: ir-adminer
+        hostname: adminer
+        build:
+          dockerfile: ./docker/adminer/Dockerfile
+          context: ./
+        ports:
+          - "8083:8080"
+        networks:
+            - esnet
+
 volumes:
   esdata1:
     driver: local
   esdata2:
     driver: local
+  mysql-data:
 
 networks:
   esnet:

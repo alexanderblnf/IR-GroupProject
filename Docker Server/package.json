@@ -8,6 +8,6 @@
     "express-session": "~1.15.6",
     "follow-redirects": "~1.2.3",
     "method-override": "~1.0.0",
-    "pg-promise": "^8.2.2"
+    "mysql2": "~1.5.2"
   }
 }
