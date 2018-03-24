@@ -12,10 +12,27 @@
 	margin-left: 1vw;
 }
 
-.margin-top-1 {
-	margin-top: 1vw;
+.margin-left-2 {
+	margin-left: 2vw;
 }
 
 .margin-left-3 {
 	margin-left: 3vw;
+}
+
+.margin-top-1 {
+	margin-top: 1vw;
+}
+
+.margin-bottom-1 {
+	margin-bottom: 1vw;
+}
+
+.vertical-align {
+	vertical-align: middle;
+}
+
+
+div.tooltip-inner {
+	max-width: 40vw;
 }

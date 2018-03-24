@@ -23,7 +23,7 @@ $(document).on('click', '#search-button', function () {
 		var response = result.response;
 		var container = document.getElementById('container');
 
-		displayCategoryList(response, container, false, true);
+		displayCategoryList(response, container, false, true, false);
 	});
 
 	response.fail(function (xhr, status, error) {

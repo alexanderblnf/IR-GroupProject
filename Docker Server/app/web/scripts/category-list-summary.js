@@ -21,7 +21,7 @@ $(document).on('click', '#search-button', function () {
 		var response = res.response;
 		var container = document.getElementById('container');
 
-		displayCategoryList(response, container, true, true);
+		displayCategoryList(response, container, true, true, false);
 	});
 
 	response.fail(function (xhr, status, error) {

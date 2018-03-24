@@ -18,53 +18,9 @@ $(document).on('click', '#search-button', function () {
 		}
 
 		var response = res.response;
-		var keys = Object.keys(response);
 		var container = document.getElementById('container');
 
-		keys.forEach(function (category, index) {
-			list[index] = response[category];
-			var initialList = list[index].slice(0, 3);
-			var leftFromList = list[index].length - initialList.length;
-			var div = document.createElement('div');
-
-			// Category
-			var divCategory = document.createElement('div');
-			divCategory.className = 'align-heading';
-
-			// Category name
-			var h2 = document.createElement('h2');
-			h2.innerHTML = category;
-
-			// Subcategory
-			var subcategory = document.createElement('button');
-			subcategory.type = 'button';
-			subcategory.id = 'subcategory-' + index;
-			subcategory.innerHTML = 'Subcategory';
-
-			// More
-			var more = document.createElement('button');
-			more.type = 'button';
-			more.id = 'more-' + index;
-			more.className = 'more-button';
-			more.innerHTML = 'More(' + leftFromList + ')';
-
-			divCategory.appendChild(h2);
-			divCategory.appendChild(subcategory);
-			divCategory.appendChild(more);
-			div.appendChild(divCategory);
-
-			// List of pages
-			var divPages = document.createElement('div');
-			divPages.id = 'pages-' + index;
-			divPages.className = 'pages';
-
-			createListTooltip(initialList, divPages);
-			div.appendChild(divPages);
-			div.appendChild(document.createElement('hr'));
-			container.appendChild(div);
-		});
-
-
+		displayCategoryList(response, container, true, false, true);
 	});
 
 

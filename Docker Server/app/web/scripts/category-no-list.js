@@ -21,7 +21,7 @@ $(document).on('click', '#search-button', function () {
 		var keys = Object.keys(response);
 		var container = document.getElementById('container');
 
-		displayCategoryList(response, container, true, false);
+		displayCategoryList(response, container, true, false, false);
 	});
 
 	response.fail(function (xhr, status, error) {
