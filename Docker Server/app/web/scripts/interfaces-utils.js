@@ -1,7 +1,7 @@
-function createListInCategory(list, appendTo) {
+function createListInCategory(list, appendTo, hasSubcategory) {
 	list.forEach(function (value) {
 		// Page Title
-		var h5   = document.createElement('h5');
+		var h5 = document.createElement('h5');
 		h5.className = 'margin-top-1';
 
 		// Page link
@@ -28,31 +28,35 @@ function createList(list, container, hascategory){
 		var div = document.createElement('div');
 
 		// Page title
-		var h3 = document.createElement('h3');
-		div.appendChild(h3);
+		var h5 = document.createElement('h5');
+		h5.className = 'margin-top-1';
+		div.appendChild(h5);
 
 		// Page link
 		var a = document.createElement('a');
 		a.href = val.url;
 		a.target = "_blank";
 		a.innerHTML = val.title;
-		h3.appendChild(a);
+		h5.appendChild(a);
 
 		// Category
 		if (hascategory) {
-			var h4 = document.createElement('h4');
-			h4.className = 'category';
-			h4.innerHTML = "Category: " + val.category;
-			div.appendChild(h4);
+			var h5a = document.createElement('h5a');
+			h5a.className = 'category';
+
+			var b = document.createElement('b');
+			b.innerHTML = "Category: " + val.category;
+			h5a.appendChild(b);
+			div.appendChild(h5a);
 		}
 
 		// Description
 		var divInner = document.createElement('div');
 		div.appendChild(divInner);
 
-		var span = document.createElement('span');
-		span.innerHTML = "DESCRIERE URIASA";
-		divInner.appendChild(span);
+		var p = document.createElement('p');
+		p.innerHTML = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.";
+		divInner.appendChild(p);
 
 		container.appendChild(div);
 	});
@@ -85,11 +89,11 @@ function displayCategoryList(response, container, hasCategory, hasList, isToolti
 		}
 
 		// Subcategory button
-		var subcategory = document.createElement('button');
-		subcategory.type = 'button';
-		subcategory.className = 'btn btn-outline-primary';
-		subcategory.id = 'subcategory-' + index;
-		subcategory.innerHTML = 'Subcategory';
+		// var subcategory = document.createElement('button');
+		// subcategory.type = 'button';
+		// subcategory.className = 'btn btn-outline-primary subcategory';
+		// subcategory.id = 'subcategory-' + index;
+		// subcategory.innerHTML = 'Subcategory';
 
 		// More button
 		var more = document.createElement('button');
@@ -98,7 +102,7 @@ function displayCategoryList(response, container, hasCategory, hasList, isToolti
 		more.className = 'btn btn-outline-primary more-button-cat';
 		more.innerHTML = innerHTML;
 
-		divCategory.appendChild(subcategory);
+		// divCategory.appendChild(subcategory);
 		divCategory.appendChild(more);
 		div.appendChild(divCategory);
 
@@ -108,7 +112,7 @@ function displayCategoryList(response, container, hasCategory, hasList, isToolti
 		divPages.className = 'pages margin-left-2';
 
 		if(hasList && !isTooltip) {
-			createListInCategory(initialList, divPages);
+			createListInCategory(initialList, divPages, false);
 		} else if (isTooltip && !hasList) {
 			createListTooltip(initialList, divPages);
 		}
@@ -166,7 +170,7 @@ $(document).on('click', '.more-button-list', function () {
 	var after = next.find('h4').attr('class');
 
 	$('#page-container').empty();
-	// document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
+	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';
 
 	if (nextClass === 'tooltip-class') {
 		createListTooltip(list, document.getElementById('page-container'));
@@ -180,5 +184,45 @@ $(document).on('click', '.more-button-list', function () {
 		createList(list, document.getElementById('page-container'), false);
 	}
 });
+
+var category;
+$(document).on('click', '.subcategory', function () {
+	var id = $(this).attr('id');
+	var parent = $(this).closest('div').next('.pages');
+	var nextClass = parent.find(">:first-child").attr('class');
+
+	var parentId = parent.attr('id');
+	var index = parentId.split('-')[1];
+
+	$('#' + parentId).empty();
+
+	category = {};
+	list[index].forEach(arrangeBySubcategory);
+
+	var keys = Object.keys(category);
+	for (i = 0; i < keys.length; i++) {
+		var h4 = document.createElement('h4');
+		h4.innerHTML = keys[i];
+		document.getElementById(parentId).appendChild(h4);
+
+		createListInCategory(category[keys[i]], document.getElementById(parentId));
+	}
+
+});
+
+function arrangeBySubcategory(item, index, arr) {
+	var current = item.secondaryCategory;
+
+	if (category[current] != null) {
+		category[current].push(item);
+	} else {
+		category[current] = [];
+		category[current].push(item);
+	}
+}
+
+
+
+
 
 

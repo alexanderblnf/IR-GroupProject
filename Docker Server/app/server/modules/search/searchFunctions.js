@@ -28,7 +28,8 @@ exports.basicSearchWithCategories = function (inputQuery, res) {
 
             categories[category].push({
                title: result['Title'],
-               url: result['URL']
+               url: result['URL'],
+                secondaryCategory: result['Secondary Category']
             });
         });
 

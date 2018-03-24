@@ -23,21 +23,34 @@ $(document).on('click', '#search-button', function () {
 		var innerHTML = 'More(' + leftFromList + ')';
 		var container = document.getElementById('container');
 		container.className = 'margin-left-3';
+		var div = document.createElement('div');
+
+		// Category
+		var divCategory = document.createElement('div');
+		divCategory.className = 'align-heading margin-bottom-1';
 
 		// More button
 		var more = document.createElement('button');
 		more.type = 'button';
 		more.id = 'more-button';
-		more.className = 'more-button-list';
+		more.className = 'btn btn-outline-primary more-button-list';
 		more.innerHTML = innerHTML;
-		container.appendChild(more);
+
+		divCategory.appendChild(more);
+		div.appendChild(divCategory);
 
 		var pageContainer = document.createElement('div');
 		pageContainer.id = 'page-container';
-		pageContainer.className = 'margin-left-3';
+		pageContainer.className = 'margin-left-2';
 
-		createListTooltip(initialList, container);
-        container.appendChild(pageContainer);
+		createListTooltip(initialList, pageContainer);
+
+		div.appendChild(pageContainer);
+		container.appendChild(div);
+
+		$('[data-toggle="tooltip"]').tooltip({
+			trigger : 'hover'
+		});
 	});
 
 	response.fail(function (xhr, status, error) {
