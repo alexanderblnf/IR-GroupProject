@@ -8,6 +8,7 @@
     "express-session": "~1.15.6",
     "follow-redirects": "~1.2.3",
     "method-override": "~1.0.0",
-    "mysql2": "~1.5.2"
+    "mysql2": "~1.5.2",
+    "google": "^2.1.0"
   }
 }

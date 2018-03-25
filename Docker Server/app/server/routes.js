@@ -16,4 +16,7 @@ module.exports = function (app) {
 
     var interactions = require('./modules/interactions/interactionsRoutes');
     app.use('/interaction', interactions);
+
+    var google = require('./modules/google/googleRoutes');
+    app.use('/google', google);
 };
