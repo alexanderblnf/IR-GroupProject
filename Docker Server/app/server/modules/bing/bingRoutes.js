@@ -51,19 +51,26 @@ router.get('/search/:query', function (req, res) {
     });
 
     const inputQuery = req.params.query;
-    const parameters = {
-        "q": inputQuery,
-        "count": 100
-    };
 
     const headers = {};
+
+    const responses = [];
+
+    var times = 0;
+
+
+    const parameters = {
+        "q": inputQuery,
+        "count": 50,
+        "offset": 0,
+        "mkt": "en-US"
+    };
 
     webSearch.search({
         parameters,
         headers
     }).then((response) => {
-        var responses = [];
-        var texts = []
+        const texts = [];
         response.webPages.value.forEach(function (value) {
             if (value.name) {
                 responses.push({
@@ -78,15 +85,15 @@ router.get('/search/:query', function (req, res) {
         postOptions['json'] = {
             'queries' : texts
         };
+
         request(postOptions, function (error, pyResponse, body) {
             var array = body.replace(/['\n]/g, '').split(",");
-            // for(var i = 0; i < array.length; i++) {
-            //     array[i] = array[i].replace(/)
-            // }
+
             responses.forEach(function (value, index) {
                 value['category'] = array[index];
             });
-            res.send(responses);
+
+            doSecond(webSearch, parameters, responses, res)
         });
         // res.send(response);
     }).catch((err) => {
@@ -95,6 +102,45 @@ router.get('/search/:query', function (req, res) {
 
 });
 
+function doSecond(webSearch, parameters, responses, res) {
+    var headers = {};
+    parameters['offset'] = 50;
+
+    webSearch.search({
+        parameters,
+        headers
+    }).then((response) => {
+        const texts = [];
+        response.webPages.value.forEach(function (value) {
+            if (value.name) {
+                responses.push({
+                    url: value.url,
+                    title: value.name,
+                    description: value.snippet
+                });
+                texts.push(value.name + " " + value.snippet);
+            }
+        });
+
+        postOptions['json'] = {
+            'queries' : texts
+        };
+
+        request(postOptions, function (error, pyResponse, body) {
+            var array = body.replace(/['\n]/g, '').split(",");
+
+            responses.forEach(function (value, index) {
+                value['category'] = array[index];
+            });
+
+            console.log(responses.length);
+            res.send(responses);
+        });
+        // res.send(response);
+    }).catch((err) => {
+        console.log(err);
+    });
+}
 
 
 module.exports = router;
