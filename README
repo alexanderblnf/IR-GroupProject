@@ -1,7 +1,15 @@
 Group project for Information Retrieval course - topic Information Retrieval
 
+Install
+1. docker-compose up -d --build
+2. npm install
 
 Start project
 1. docker-compose up -d
 2. docker exec -it ir-workspace bash
 3. pm2 start process.json
+
+Stop project
+1. pm2 stop 0
+2. exit
+3. docker-compose stop

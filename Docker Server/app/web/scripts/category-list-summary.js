@@ -1,31 +1,38 @@
 var list = {};
+var response = {};
 
 $(document).on('click', '#search-button', function () {
-	if (!started) {
-		started = true;
-		timer();
-	}
-
 	var query = $('#query-input').val();
-	var response = $.ajax({
-		url: "/search/categories/" + query,
-		type: "get"
-	});
+	query = checkQuery(query);
 
-	response.done(function (res) {
-		if (res.code !== 200) {
-			console.log(result.response);
-			return;
-		}
+	if (query !== null) {
+		var result = $.ajax({
+			url: "/search/categories/" + query,
+			type: "get"
+		});
 
-		var response = res.response;
+		result.done(function (res) {
+			if (!started) {
+				started = true;
+				timer();
+			}
+
+			if (res.code !== 200) {
+				console.log(result.response);
+				return;
+			}
+
+			response = res.response;
+
+			var container = document.getElementById('container');
+			displayCategoryList(response, container, true, true, false);
+		});
+
+		result.fail(function (xhr, status, error) {
+			console.log(xhr.responseText);
+		});
+	} else {
 		var container = document.getElementById('container');
-
 		displayCategoryList(response, container, true, true, false);
-	});
-
-	response.fail(function (xhr, status, error) {
-		console.log(xhr.responseText);
-	});
-
+	}
 });

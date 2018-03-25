@@ -1,52 +1,64 @@
 var list = [];
 
 $(document).on('click', '#search-button', function () {
-	if (!started) {
-		started = true;
-        timer();
-    }
 	var query = $('#query-input').val();
-	var response = $.ajax({
-		url: "/search/basic/" + query,
-		type: "get"
-	});
+	query = checkQuery(query);
 
-	response.done(function (res) {
-		if (res.code !== 200) {
-			return;
-		}
+	if (query !== null) {
+		var response = $.ajax({
+			url: "/search/basic/" + query,
+			type: "get"
+		});
 
-		list = res.response;
-		var initialList = list.slice(0, 20);
-		var leftFromList = list.length - initialList.length;
-		var innerHTML = 'More(' + leftFromList + ')';
-		var container = document.getElementById('container');
-		container.className = 'margin-left-3';
+		response.done(function (res) {
+			if (!started) {
+				started = true;
+				timer();
+			}
 
-		// Category
-		var divCategory = document.createElement('div');
-		divCategory.className = 'align-heading margin-bottom-1';
+			if (res.code !== 200) {
+				return;
+			}
 
-		// More button
-		var more = document.createElement('button');
-		more.type = 'button';
-		more.id = 'more-button';
-		more.className = 'btn btn-outline-primary more-button-list';
-		more.innerHTML = innerHTML;
+			list = res.response;
 
-		divCategory.appendChild(more);
-		container.appendChild(divCategory);
+			computeList();
+		});
 
-		var pageContainer = document.createElement('div');
-		pageContainer.id = 'page-container';
-		pageContainer.className = 'margin-left-2';
-
-		createList(initialList, pageContainer, false);
-		container.appendChild(pageContainer);
-	});
-
-	response.fail(function (xhr, status, error) {
-		console.log(xhr.responseText);
-	});
+		response.fail(function (xhr, status, error) {
+			console.log(xhr.responseText);
+		});
+	} else {
+		computeList();
+	}
 
 });
+
+function computeList() {
+	var initialList = list.slice(0, 20);
+	var leftFromList = list.length - initialList.length;
+	var innerHTML = 'More(' + leftFromList + ')';
+	var container = document.getElementById('container');
+	container.className = 'margin-left-3';
+
+	// Category
+	var divCategory = document.createElement('div');
+	divCategory.className = 'align-heading margin-bottom-1';
+
+	// More button
+	var more = document.createElement('button');
+	more.type = 'button';
+	more.id = 'more-button';
+	more.className = 'btn btn-outline-primary more-button-list';
+	more.innerHTML = innerHTML;
+
+	divCategory.appendChild(more);
+	container.appendChild(divCategory);
+
+	var pageContainer = document.createElement('div');
+	pageContainer.id = 'page-container';
+	pageContainer.className = 'margin-left-2';
+
+	createList(initialList, pageContainer, false);
+	container.appendChild(pageContainer);
+}
