@@ -49,6 +49,20 @@ exports.getUserTask = function (user, task, callback) {
 	)
 };
 
+exports.getTaskById = function (taskId, callback) {
+    connection.execute(
+        'SELECT task FROM task where task_id = ?',
+        [taskId],
+        function (err, result) {
+            if (err) {
+                callback(true);
+            } else {
+                callback(false, result);
+            }
+        }
+    );
+};
+
 exports.setExperiment = function (userName, userId, callback) {
     connection.execute(
         'SELECT * from experiment',
