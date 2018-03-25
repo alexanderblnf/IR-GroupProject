@@ -3,10 +3,6 @@ var router = express.Router();
 var request = require('request');
 const cognitiveServices = require('cognitive-services');
 
-var postOptions = {
-    uri: 'http://localhost:5000/categories',
-    method: 'POST',
-};
 
 
 // router.get('/search/:query', function (req, res) {
@@ -45,18 +41,30 @@ var postOptions = {
 //     });
 // });
 
-router.get('/search/:query', function (req, res) {
-    const webSearch = new cognitiveServices.bingWebSearchV7({
-        apiKey: "93b0af79e01448f8b6b261ce1b72e0fd",
-    });
-
+router.get('/search-category/:query', function (req, res) {
     const inputQuery = req.params.query;
+    doOne(inputQuery, res, true);
 
+});
+
+router.get('/search-list/:query', function (req, res) {
+    const inputQuery = req.params.query;
+    doOne(inputQuery, res);
+
+});
+
+function doOne(inputQuery, res, doCategory=false) {
+    var postOptions = {
+        uri: 'http://localhost:5000/categories',
+        method: 'POST',
+    };
     const headers = {};
 
     const responses = [];
 
-    var times = 0;
+    const webSearch = new cognitiveServices.bingWebSearchV7({
+        apiKey: "93b0af79e01448f8b6b261ce1b72e0fd",
+    });
 
 
     const parameters = {
@@ -70,10 +78,11 @@ router.get('/search/:query', function (req, res) {
         parameters,
         headers
     }).then((response) => {
-        const texts = [];
-        response.webPages.value.forEach(function (value) {
+        var texts = [];
+        response.webPages.value.forEach(function (value, index) {
             if (value.name) {
                 responses.push({
+                    index: index,
                     url: value.url,
                     title: value.name,
                     description: value.snippet
@@ -87,33 +96,45 @@ router.get('/search/:query', function (req, res) {
         };
 
         request(postOptions, function (error, pyResponse, body) {
-            var array = body.replace(/['\n]/g, '').split(",");
+            var array = body.replace(/['\n"]/g, '').split(",");
+
+            for (var i = 0; i < array.length; i++) {
+                array[i] = array[i].replace(/^[ ]/, '');
+            }
 
             responses.forEach(function (value, index) {
                 value['category'] = array[index];
             });
 
-            doSecond(webSearch, parameters, responses, res)
+            console.log(array);
+
+            doSecond(webSearch, parameters, responses, res, doCategory)
         });
         // res.send(response);
     }).catch((err) => {
         console.log(err);
     });
+}
 
-});
-
-function doSecond(webSearch, parameters, responses, res) {
+function doSecond(webSearch, parameters, responses, res, doCategory=false) {
     var headers = {};
     parameters['offset'] = 50;
+    var postOptions = {
+        uri: 'http://localhost:5000/categories',
+        method: 'POST',
+    };
+    var responses2 = [];
 
     webSearch.search({
         parameters,
         headers
     }).then((response) => {
-        const texts = [];
-        response.webPages.value.forEach(function (value) {
+        var texts = [];
+        const length = responses.length - 1;
+        response.webPages.value.forEach(function (value, index) {
             if (value.name) {
-                responses.push({
+                responses2.push({
+                    index: length + index,
                     url: value.url,
                     title: value.name,
                     description: value.snippet
@@ -127,19 +148,54 @@ function doSecond(webSearch, parameters, responses, res) {
         };
 
         request(postOptions, function (error, pyResponse, body) {
-            var array = body.replace(/['\n]/g, '').split(",");
+            var array = body.replace(/['\n"]/g, '').split(",");
 
-            responses.forEach(function (value, index) {
+            for (var i = 0; i < array.length; i++) {
+                array[i] = array[i].replace(/^[ ]/, '');
+            }
+
+            responses2.forEach(function (value, index) {
                 value['category'] = array[index];
             });
 
-            console.log(responses.length);
-            res.send(responses);
+            console.log(array);
+            var out = {};
+            out['code'] = 200;
+
+            responses = responses.concat(responses2);
+
+            if (doCategory) {
+                out['response'] = groupByCategory(responses);
+            } else {
+                out['response'] = responses;
+            }
+
+            res.send(out);
         });
         // res.send(response);
     }).catch((err) => {
         console.log(err);
     });
+}
+
+function groupByCategory(responses) {
+    var categories = {};
+    responses.forEach(function (value) {
+        var category = value['category'];
+
+        if (!categories.hasOwnProperty(category)) {
+            categories[category] = [];
+        }
+
+        categories[category].push({
+            title: value['title'],
+            url: value['url'],
+            description: value['description'],
+            index: value['index']
+        });
+    });
+
+    return categories;
 }
 
 

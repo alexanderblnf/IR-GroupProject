@@ -7,7 +7,7 @@ $(document).on('click', '#search-button', function () {
 
 	if (query !== null) {
 		 var result = $.ajax({
-			url: "/search/categories/" + query,
+			url: "/bing/search-category/" + query,
 			type: "get"
 		});
 
