@@ -18,21 +18,35 @@ exports.insertNewUser = function (userName, callback) {
     );
 };
 
-exports.getNewTask = function (userName, callback) {
+exports.getNewTask = function (task, callback) {
     connection.execute(
-        'SELECT task FROM task ' +
-        'WHERE task not in (SELECT t.task from task t INNER JOIN user_task ut ON t.task_id = ut.task_id INNER JOIN user u ON ut.user_id ' +
-        'WHERE u.username = ?)',
-        [userName],
+        'SELECT task FROM task WHERE task_id = ?',
+        [task],
         function (err, results) {
             if (err) {
                 callback(true)
             } else {
-                const task = getValueOfListForUser(userName, results);
-                callback(false, task);
+                callback(false, results);
             }
         }
     );
+};
+
+exports.getUserTask = function (user, task, callback) {
+	connection.execute(
+		'SELECT ut.status FROM user_task ut' +
+		'INNER JOIN user u ON u.user_id = ut.user_id' +
+		'WHERE u.user_id = (SELECT user_id from user_task' +
+		'WHERE username = ?) AND task_id = ?',
+		[user, task],
+		function (err, result) {
+			if (err) {
+				callback(true);
+			} else {
+				callback(false, result);
+			}
+		}
+	)
 };
 
 exports.setExperiment = function (userName, userId, callback) {

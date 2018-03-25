@@ -236,6 +236,12 @@ function arrangeBySubcategory(item, index, arr) {
 	}
 }
 
+function key_down(e) {
+	if(e.keyCode === 13) {
+		search_func();
+	}
+}
+
 
 
 

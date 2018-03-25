@@ -13,7 +13,8 @@ CREATE TABLE `task` (
 DROP TABLE IF EXISTS `experiment`;
 CREATE TABLE `experiment` (
   `experiment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `experiment` VARCHAR(255) NOT NULL,
+  `interface1` VARCHAR(255) NOT NULL,
+  `interface2` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`experiment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -30,6 +31,10 @@ CREATE TABLE `user_task` (
   `user_task_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `task_id` int(11) NOT NULL,
+	`status` int(2) DEFAULT -1,
+	`hover` int(11),
+	`click` int(11),
+	`time` TIMESTAMP,
   PRIMARY KEY (`user_task_id`),
   CONSTRAINT `user_task_userId_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `user_task_taskId_fk` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`) ON DELETE CASCADE
@@ -50,8 +55,8 @@ INSERT INTO `task` (`task`) VALUES
 ('Cine este Raluca Badulescu'),
 ('Care este cel mai smeq jurat de la Bravo ai Stil?');
 
-INSERT INTO `experiment` (`experiment`) VALUES
-('category-hover, list-hover'),
-('category-hover,list-summary'),
-('category-list-summary, no-category-list'),
-('list-category-summary, category-no-list');
+INSERT INTO `experiment` (`interface1`, `interface2`) VALUES
+('category-hover', 'list-hover'),
+('category-hover', 'list-summary'),
+('category-list-summary', 'no-category-list'),
+('list-category-summary', 'category-no-list');
