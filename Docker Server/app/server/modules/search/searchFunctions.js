@@ -6,6 +6,8 @@ var client = new elasticsearch.Client({
 exports.basicSearchWithCategories = function (inputQuery, res) {
     client.search({
         body: {
+            from: 0,
+            size: 100,
             query: {
                 match: {
                     Title: inputQuery
@@ -28,8 +30,7 @@ exports.basicSearchWithCategories = function (inputQuery, res) {
 
             categories[category].push({
                title: result['Title'],
-               url: result['URL'],
-                secondaryCategory: result['Secondary Category']
+               url: result['URL']
             });
         });
 
@@ -48,8 +49,8 @@ exports.basicSearchWithCategories = function (inputQuery, res) {
 exports.basicSearchWithoutCategories = function (inputQuery, res) {
     client.search({
         body: {
-        	from: 0,
-	        size: 100,
+            from: 0,
+            size: 100,
             query: {
                 match: {
                     Title: inputQuery
