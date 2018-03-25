@@ -8,7 +8,7 @@ $(document).on('click', '#search-button', function () {
 
 
 		var response = $.ajax({
-			url: "/search/basic/" + query,
+			url: "/bing/search-list/" + query,
 			type: "get"
 		});
 
