@@ -1,8 +1,12 @@
 const connection = require('./connection');
 
-exports.insertNewUser = function (userName, callback) {
+exports.insertNewUser = function (options, callback) {
     var user = {
-        username: userName
+        username: options.username,
+        age: options.age,
+        gender: options.gender,
+        student: options.student,
+        course_participant: options.course_participant
     };
 
     connection.query(

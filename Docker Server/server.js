@@ -16,43 +16,80 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
-app.get('/', function (req, res, next) {
-    if(!req.session.username) {
-        var username = new Date().getTime() + '-';
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        for (var i = 0; i < 5; i++) {
-            username += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-
+app.post('/register', function (req, res, next) {
+    if (!req.session.username) {
         var response = {};
-        var dbFunctions = require('./app/server/modules/mysql/dbFunctions');
+        console.log(req.body);
+        var age = req.body.age;
+        var gender = req.body.gender;
+        var student = req.body.student;
+        var ir = req.body.ir;
 
-        if (username) {
-            dbFunctions.insertNewUser(username, function (err, result) {
-                if (err) {
-                    response['code'] = 500;
-                    response['response'] = 'Error adding the user';
-                } else {
-                    response['code'] = 200;
-                    response['response'] = 'Success';
-                    req.session.username = username;
-                    req.session.userid = result.insertId;
-                    req.session.task = 1;
-                }
+        if (age && gender && student && ir) {
+            var username = new Date().getTime() + '-';
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-                return next();
-            })
+            for (var i = 0; i < 5; i++) {
+                username += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            var dbFunctions = require('./app/server/modules/mysql/dbFunctions');
+
+            var options = {
+                username: username,
+                age: age,
+                gender: gender,
+                student: student,
+                course_participant: ir
+            };
+
+            if (username) {
+                dbFunctions.insertNewUser(options, function (err, result) {
+                    if (err) {
+                        response['code'] = 500;
+                        response['response'] = 'Error adding the user';
+                    } else {
+                        response['code'] = 200;
+                        response['response'] = 'Success';
+                        req.session.username = username;
+                        req.session.userid = result.insertId;
+                        req.session.task = 1;
+                    }
+
+                    res.send(response);
+                })
+            } else {
+                response['code'] = 500;
+                response['response'] = 'Server error';
+                res.send(response);
+            }
         } else {
-            response['code'] = 500;
-            response['response'] = 'Server error';
+            response['code'] = 400;
+            response['response'] = 'Bad Form';
             res.send(response);
         }
     } else {
         return next();
     }
 });
+
+app.get('/register.html', function (req, res) {
+    res.sendFile(path.join(__dirname, 'app/web/register.html'));
+});
+
+app.get(['/*.html', '/'], function (req, res, next) {
+    if (req.url !== '/register.html') {
+        if (!req.session.username) {
+            res.redirect('/register.html');
+        }
+    }
+
+    return next();
+});
+
+// app.get('/', function (req, res, next) {
+//
+// });
 
 
 app.use(express.static(path.join(__dirname, 'app/web')));

@@ -23,6 +23,10 @@ CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL,
   `created_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `age` int(11) NOT NULL,
+  `gender` VARCHAR(30) NOT NULL,
+  `student` VARCHAR(4) NOT NULL,
+  `course_participant` VARCHAR(4) NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
