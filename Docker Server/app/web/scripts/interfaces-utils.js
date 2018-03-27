@@ -1,4 +1,10 @@
 var lastQuery;
+var spinner = true;
+
+function loadSpinner() {
+
+}
+
 function checkQuery(query) {
 	if (query.trim().length === 0) {
 		alert("Please insert a query with minim length of 1");
