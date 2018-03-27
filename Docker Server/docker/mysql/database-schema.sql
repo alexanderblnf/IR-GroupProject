@@ -34,7 +34,7 @@ CREATE TABLE `user_task` (
 	`status` int(2) DEFAULT -1,
 	`hover` int(11),
 	`click` int(11),
-	`time` TIMESTAMP,
+	`time` int(11),
   PRIMARY KEY (`user_task_id`),
   CONSTRAINT `user_task_userId_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `user_task_taskId_fk` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`) ON DELETE CASCADE
@@ -51,9 +51,21 @@ CREATE TABLE `user_experiment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `task` (`task`) VALUES
-('Cine este Florin Salam?'),
-('Cine este Raluca Badulescu'),
-('Care este cel mai smeq jurat de la Bravo ai Stil?');
+('Who is Mozart?'),
+('Biggest car rental company'),
+('What is love'),
+('Convolution'),
+('Image recognition'),
+('NLP'),
+('Airbus A380'),
+('Mazda MX-5'),
+('Who is Cristiano Ronaldo?'),
+('President of Mozambique'),
+('Best medication for cancer'),
+('Stomach remedies'),
+('Zaha hadid'),
+('Art deco');
+
 
 INSERT INTO `experiment` (`interface1`, `interface2`) VALUES
 ('category-hover', 'list-hover'),

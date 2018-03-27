@@ -3,7 +3,7 @@ var tasks = ["Jaguar", "Motorola", "Apple",
 
 $(document).ready(function () {
 	var result = $.ajax({
-		url: "/interaction/getNewTask/2",
+		url: "/interaction/getNewTask",
 		type: "get"
 	});
 
@@ -23,13 +23,25 @@ $(document).on("keyup", '#query-input', function (event) {
 });
 
 $(document).on('click', '#finish-button', function () {
+	var data = {
+        click: linksClicked,
+        hover: linksHovered,
+        time: hours * 3600 + minutes * 60 + seconds,
+        status: 1
+    };
 	var result = $.ajax({
-		url: "url/success",
-		type: "post"
+		url: "/interaction/finish",
+		type: "post",
+		data: JSON.stringify(data),
+        contentType: 'application/json'
 	});
 
 	result.done(function (res) {
-		$('#task-content').text(res);
+		if (res.code === 200) {
+            location.reload();
+        } else {
+			console.log(res.response);
+		}
 	});
 
 	result.fail(function (xhr) {
@@ -38,16 +50,28 @@ $(document).on('click', '#finish-button', function () {
 });
 
 $(document).on('click', '#abandon-button', function () {
-	var result = $.ajax({
-		url: "url/fail",
-		type: "post"
-	});
+    var data = {
+        click: linksClicked,
+        hover: linksHovered,
+        time: hours * 3600 + minutes * 60 + seconds,
+        status: 0
+    };
+    var result = $.ajax({
+        url: "/interaction/finish",
+        type: "post",
+        data: JSON.stringify(data),
+        contentType: 'application/json'
+    });
 
-	result.done(function (res) {
-		$('#task-content').text(res);
-	});
+    result.done(function (res) {
+        if (res.code === 200) {
+            location.reload();
+        } else {
+            console.log(res.response);
+        }
+    });
 
-	result.fail(function (xhr) {
-		console.log(xhr.responseText);
-	})
+    result.fail(function (xhr) {
+        console.log(xhr.responseText);
+    })
 });

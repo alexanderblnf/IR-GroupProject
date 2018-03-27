@@ -88,6 +88,21 @@ exports.setExperiment = function (userName, userId, callback) {
     );
 };
 
+exports.finish = function (options, callback) {
+    connection.execute(
+        'INSERT INTO user_task (user_id, task_id, hover, click, time, status)' +
+        ' VALUES (?, ?, ?, ?, ?, ?)',
+        [options.userId, options.taskId, options.hovers, options.clicks, options.time, options.status],
+        function (err, result) {
+            if (err) {
+                callback(true, err);
+            } else {
+                callback(false, result);
+            }
+        }
+    )
+};
+
 function getValueOfListForUser(userName, list) {
     var crypto = require('crypto');
     var hash = crypto.createHash('md5').update(userName).digest('hex');
