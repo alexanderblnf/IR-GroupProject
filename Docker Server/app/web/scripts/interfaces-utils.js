@@ -56,7 +56,7 @@ function createList(list, container, hascategory){
 
 		// Category
 		if (hascategory) {
-			var h5a = document.createElement('h5a');
+			var h5a = document.createElement('h6');
 			h5a.className = 'category';
 
 			var b = document.createElement('b');
@@ -79,9 +79,13 @@ function createList(list, container, hascategory){
 
 function displayCategoryList(response, container, hasCategory, hasList, isTooltip) {
 	var keys = Object.keys(response);
+	keys.sort(function (a, b) {
+		return response[b].length - response[a].length;
+	});
 
 	keys.forEach(function (category, index) {
 		list[index] = response[category];
+		console.log(list[index]);
 		var initialList = list[index].slice(0, 3);
 		var leftFromList = list[index].length - initialList.length;
 		var innerHTML = 'More(' + leftFromList + ')';
@@ -182,7 +186,7 @@ $(document).on('click', '.more-button-list', function () {
 	var id = $(this).attr('id');
 	var next = $('#page-container').find(">:first-child");
 	var nextClass = next.attr('class');
-	var after = next.find('h4').attr('class');
+	var after = next.find('h6').attr('class');
 
 	$('#page-container').empty();
 	document.getElementById('more-button').innerHTML = 'More(' + 0 + ')';

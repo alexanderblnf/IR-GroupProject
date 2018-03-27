@@ -8,6 +8,7 @@ Start project
 1. docker-compose up -d
 2. docker exec -it ir-workspace bash
 3. pm2 start process.json
+4. python apps/python_server/app.py
 
 Stop project
 1. pm2 stop 0
