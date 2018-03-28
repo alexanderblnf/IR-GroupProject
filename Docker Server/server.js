@@ -12,7 +12,7 @@ app.use(session({
     secret: 'puiulmic',
     resave: false,
     duration: 100 * 60 * 1000,
-    activeDuration: 10 * 60 * 1000,
+    activeDuration: 100 * 60 * 1000,
     saveUninitialized: true
 }));
 

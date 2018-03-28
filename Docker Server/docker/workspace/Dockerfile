@@ -57,3 +57,5 @@ COPY . /var/www/
 RUN chmod a+x /var/www/startup-script.sh
 
 EXPOSE 8080
+
+ENTRYPOINT bash startup-script.sh

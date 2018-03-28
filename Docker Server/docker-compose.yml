@@ -12,43 +12,10 @@ services:
             - ./:/var/www
         tty: true
         ports:
-            - "8080:8080"
+            - "80:8080"
+        restart: always
         networks:
           - esnet
-### Elasticsearch containers ##############################
-#    elasticsearch:
-#      image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-#      container_name: elasticsearch
-#      environment:
-#        - cluster.name=docker-cluster
-#        - bootstrap.memory_lock=true
-#        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      ulimits:
-#        memlock:
-#          soft: -1
-#          hard: -1
-#      volumes:
-#        - esdata1:/usr/share/elasticsearch/data
-#      ports:
-#        - 9200:9200
-#      networks:
-#        - esnet
-#    elasticsearch2:
-#      image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-#      container_name: elasticsearch2
-#      environment:
-#        - cluster.name=docker-cluster
-#        - bootstrap.memory_lock=true
-#        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#        - "discovery.zen.ping.unicast.hosts=elasticsearch"
-#      ulimits:
-#        memlock:
-#          soft: -1
-#          hard: -1
-#      volumes:
-#        - esdata2:/usr/share/elasticsearch/data
-#      networks:
-#        - esnet
 
 ### MySQL Container #############################
     mysql:
@@ -57,10 +24,9 @@ services:
         build:
           dockerfile: ./docker/mysql/Dockerfile
           context: ./
+        restart: always
         env_file:
           - ./docker/development.env
-        ports:
-          - "8086:3306"
         volumes:
           - mysql-data:/var/lib/mysql
         networks:
@@ -75,6 +41,7 @@ services:
           context: ./
         ports:
           - "8083:8080"
+        restart: always
         networks:
             - esnet
 
