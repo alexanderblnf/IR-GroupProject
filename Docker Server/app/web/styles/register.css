@@ -2,3 +2,29 @@
     margin-left: 3vw;
     margin-top: 2vw;
 }
+
+h4 {
+    margin-bottom: 5vh;
+}
+
+#age-div > {
+    display: inline-block;
+}
+
+#register-div, #age-div, #student-div, #gender-div {
+    margin-bottom: 3vh;
+}
+
+#register-btn {
+    margin-top: 5vh;
+}
+
+.questions-span {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.input-register {
+    width: 15%;
+    margin-top: 1vh;
+}

@@ -49,7 +49,7 @@ exports.finish = function (options, req, res) {
     if(req.session.username) {
         options.userId = req.session.userid;
         options.taskId = req.session.task;
-        console.log(options);
+        options.queries = req.session.queries;
         dbFunctions.finish(options, function (err, result) {
             if (err) {
                 response['code'] = 500;
@@ -57,12 +57,18 @@ exports.finish = function (options, req, res) {
             } else {
                 response['code'] = 200;
                 response['response'] = result;
+                req.session.task ++;
+                req.session.queries = 0;
+                req.session.time = {
+                    hours: 0,
+                    minutes: 0,
+                    seconds: 0
+                };
             }
 
-            req.session.task ++;
-
             res.send(response);
-        })
+        });
+        req.session.save();
     } else {
         response['code'] = 401;
         response['response'] = 'You are not registered';
