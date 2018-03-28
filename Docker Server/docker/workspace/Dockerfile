@@ -32,7 +32,7 @@ RUN apt-get update && \
 # Python Dependencies
 #############
 RUN pip install --upgrade pip
-RUN pip install numpy \
+RUN pip install --no-cache-dir numpy \
     scipy \
     scikit-learn \
     Flask
