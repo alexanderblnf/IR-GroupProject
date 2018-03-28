@@ -25,10 +25,6 @@ function timer() {
     t = setTimeout(add, 1000);
 }
 
-function initStatistics() {
-    timer();
-}
-
 function createTooltip(response) {
     var h5 = document.createElement('h5');
     var a = document.createElement('a');
@@ -43,6 +39,30 @@ function createTooltip(response) {
     return h5;
 }
 
+$(document).ready(function () {
+    var response = $.ajax({
+        url: "/interaction/getTime",
+        type: "GET",
+    });
+
+    response.done(function (res) {
+        if (res.code === 200) {
+            var time = res.response;
+
+            if (time['seconds'] > 0 || time['minutes'] > 0 || time['hour'] > 0) {
+                seconds = time['seconds'];
+                minutes = time['minutes'];
+                hours = time['hours'];
+                timer();
+            }
+        }
+    });
+
+    response.fail(function (xhr, status, error) {
+        console.log(xhr.responseText);
+    });
+});
+
 $(document).on('mouseover', 'a', function () {
    linksHovered ++;
    console.log("H: " + linksHovered);
@@ -55,4 +75,28 @@ $(document).on('click', 'a', function () {
 
 $(document).on('click', '#search-button', function () {
     $('#container').empty();
+});
+
+$(window).on('beforeunload', function () {
+    if (seconds > 0 || minutes > 0 || hours > 0) {
+        var data = {
+            hours: hours,
+            minutes: minutes,
+            seconds: seconds
+        };
+
+        var response = $.ajax({
+            url: "/interaction/time",
+            type: "POST",
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        });
+
+        response.done(function (res) {
+        });
+
+        response.fail(function (xhr, status, error) {
+            console.log(xhr.responseText);
+        });
+    }
 });

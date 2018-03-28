@@ -27,7 +27,9 @@ CREATE TABLE `user` (
   `gender` VARCHAR(30) NOT NULL,
   `student` VARCHAR(4) NOT NULL,
   `course_participant` VARCHAR(4) NOT NULL,
-  PRIMARY KEY (`user_id`)
+  `experiment_id` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  CONSTRAINT `user_experiment_fk` FOREIGN KEY (`experiment_id`) REFERENCES `experiment` (`experiment_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `user_task`;
@@ -39,6 +41,7 @@ CREATE TABLE `user_task` (
 	`hover` int(11),
 	`click` int(11),
 	`time` int(11),
+	`queries` int(11),
   PRIMARY KEY (`user_task_id`),
   CONSTRAINT `user_task_userId_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE,
   CONSTRAINT `user_task_taskId_fk` FOREIGN KEY (`task_id`) REFERENCES `task` (`task_id`) ON DELETE CASCADE

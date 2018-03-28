@@ -10,13 +10,18 @@ $(document).on('click', '#register-btn', function () {
     var ir = $('#select-ir').val();
 
     if (age && gender && student && ir) {
-        var data = {
-            age: age,
-            gender: gender,
-            student: student,
-            ir: ir
-        };
-        sendRegister(data);
+        if (isNaN(age)) {
+            $('#error-p').text('Please ensure that you have entered a valid age');
+            $('.alert').show();
+        } else {
+            var data = {
+                age: age,
+                gender: gender,
+                student: student,
+                ir: ir
+            };
+            sendRegister(data);
+        }
     } else {
         $('.alert').show();
     }
