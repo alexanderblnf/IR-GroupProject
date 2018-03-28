@@ -6,12 +6,14 @@ $(document).on('click', '#search-button', function () {
 	query = checkQuery(query);
 
 	if (query !== null) {
+        $('.spinner').show();
 		var result = $.ajax({
 			url: "/bing/search-category/" + query,
 			type: "get"
 		});
 
 		result.done(function (res) {
+            $('.spinner').hide();
 			if (!started) {
 				started = true;
 				timer();

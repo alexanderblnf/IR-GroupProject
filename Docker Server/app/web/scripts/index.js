@@ -2,6 +2,7 @@ var tasks = ["Jaguar", "Motorola", "Apple",
 	"Convolution", "Samsung", "Toyota", "Gradient"];
 
 $(document).ready(function () {
+    $('.spinner').hide();
 	var result = $.ajax({
 		url: "/interaction/getNewTask",
 		type: "get"

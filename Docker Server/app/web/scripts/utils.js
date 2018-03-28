@@ -74,7 +74,7 @@ $(document).on('click', 'a', function () {
 });
 
 $(document).on('click', '#search-button', function () {
-    $('#container').empty();
+    $('#container').find('*').not('.spinner-div').remove();
 });
 
 $(window).on('beforeunload', function () {

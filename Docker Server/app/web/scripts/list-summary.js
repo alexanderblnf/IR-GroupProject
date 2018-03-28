@@ -5,12 +5,14 @@ $(document).on('click', '#search-button', function () {
 	query = checkQuery(query);
 
 	if (query !== null) {
+        $('.spinner').show();
 		var response = $.ajax({
 			url: "/bing/search-list/" + query,
 			type: "get"
 		});
 
 		response.done(function (res) {
+            $('.spinner').hide();
 			if (!started) {
 				started = true;
 				timer();
