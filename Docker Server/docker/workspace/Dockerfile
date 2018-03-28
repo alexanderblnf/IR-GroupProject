@@ -27,13 +27,12 @@ RUN apt-get update && \
         python-pip \
     && apt-get clean
 
+
 #############
 # Python Dependencies
 #############
 RUN pip install --upgrade pip
-RUN pip install pandas \
-    elasticsearch \
-    numpy \
+RUN pip install numpy \
     scipy \
     scikit-learn \
     Flask
@@ -55,6 +54,6 @@ WORKDIR /var/www
 # Store all project files in the image
 COPY . /var/www/
 
-RUN chmod a+x /var/www/loadElasticsearchData.sh
+RUN chmod a+x /var/www/startup-script.sh
 
 EXPOSE 8080

@@ -7,11 +7,12 @@ $(document).ready(function () {
 		type: "get"
 	});
 
-	$('#control-window').load('../controlWindow.html');
 
 	result.done(function (res) {
 		if (res.code === 200) {
-			$('#task-content').text(res.response);
+            $('#control-window').load('../controlWindow.html', function () {
+                $('#task-content').text(res.response);
+            });
 		}
 	});
 });

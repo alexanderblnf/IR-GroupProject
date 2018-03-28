@@ -55,7 +55,7 @@ router.get('/search-list/:query', function (req, res) {
 
 function doOne(inputQuery, res, doCategory=false) {
     var postOptions = {
-        uri: 'http://localhost:5000/categories',
+        uri: 'http://localhost:8500/categories',
         method: 'POST',
     };
     const headers = {};
@@ -96,6 +96,8 @@ function doOne(inputQuery, res, doCategory=false) {
         };
 
         request(postOptions, function (error, pyResponse, body) {
+            console.log(error);
+            console.log(pyResponse);
             var array = body.replace(/['\n"]/g, '').split(",");
 
             for (var i = 0; i < array.length; i++) {
@@ -120,7 +122,7 @@ function doSecond(webSearch, parameters, responses, res, doCategory=false) {
     var headers = {};
     parameters['offset'] = 50;
     var postOptions = {
-        uri: 'http://localhost:5000/categories',
+        uri: 'http://localhost:8500/categories',
         method: 'POST',
     };
     var responses2 = [];

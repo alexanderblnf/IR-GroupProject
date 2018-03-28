@@ -4,6 +4,12 @@ var session = require('express-session');
 var port = process.env.PORT || 8080;
 var path = require('path');
 var bodyParser = require('body-parser');
+var pathMapping = {
+    1: ['scripts/category-hover.js', 'scripts/list-hover.js'],
+    2: ['scripts/category-hover.js', 'scripts/list-summary.js'],
+    3: ['scripts/category-list-summary.js', 'scripts/no-category-list.js'],
+    4: ['scripts/list-category-summary.js', 'scripts/category-no-list.js']
+};
 
 app.set('trust proxy', 1);
 app.use(bodyParser.json());
@@ -15,6 +21,37 @@ app.use(session({
     activeDuration: 10 * 60 * 1000,
     saveUninitialized: true
 }));
+
+app.get(['/1', '/2', '/3', '/4', '/'], function (req, res, next) {
+    var rootUrl = req.url.length > 1 ? req.url[1] : null;
+    if (!req.session.username) {
+        console.log(rootUrl);
+        if (rootUrl && rootUrl in pathMapping) {
+            req.session.experiment = rootUrl;
+            req.session.currentInterface = 0;
+        } else {
+            var index = Math.floor((Math.random() * 4) + 1);
+            req.session.experiment = index;
+            req.session.currentInterface = 0;
+        }
+        res.redirect('/register.html');
+    } else {
+        res.sendFile(path.join(__dirname, 'app/web/index.html'))
+    }
+});
+
+app.get('/getInterface', function (req, res) {
+    var response = {};
+    if(req.session.username) {
+        response['code'] = 200;
+        response['response'] = pathMapping[req.session.experiment][req.session.currentInterface];
+    } else {
+        response['code'] = 400;
+        response['response'] = 'You are not registered!'
+    }
+
+    res.send(response);
+});
 
 app.post('/register', function (req, res, next) {
     if (!req.session.username) {
@@ -50,7 +87,7 @@ app.post('/register', function (req, res, next) {
                         response['response'] = 'Error adding the user';
                     } else {
                         response['code'] = 200;
-                        response['response'] = 'Success';
+                        response['response'] = '/' + req.session.currentInterface;
                         req.session.username = username;
                         req.session.userid = result.insertId;
                         req.session.task = 1;
@@ -75,16 +112,6 @@ app.post('/register', function (req, res, next) {
 
 app.get('/register.html', function (req, res) {
     res.sendFile(path.join(__dirname, 'app/web/register.html'));
-});
-
-app.get(['/*.html', '/'], function (req, res, next) {
-    if (req.url !== '/register.html') {
-        if (!req.session.username) {
-            res.redirect('/register.html');
-        }
-    }
-
-    return next();
 });
 
 // app.get('/', function (req, res, next) {
