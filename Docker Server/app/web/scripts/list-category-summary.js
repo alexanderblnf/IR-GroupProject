@@ -4,6 +4,7 @@ $(document).on('click', '#search-button', function () {
 	var query = $('#query-input').val();
 	query = checkQuery(query);
 
+	$('#container').find('*').not('.spinner-div').remove();
 	if (query !== null) {
         $('.spinner').show();
 		var result = $.ajax({

@@ -1,30 +1,35 @@
+var registerClick = 0;
+
 $(document).ready(function () {
     $('.alert').hide();
     $('.alert').alert();
 });
 
 $(document).on('click', '#register-btn', function () {
-    var age =  $('#age-input').val();
-    var gender = $('#select-gender').val();
-    var student = $('#select-student').val();
-    var ir = $('#select-ir').val();
+	registerClick++;
+	if (registerClick < 2) {
+		var age = $('#age-input').val();
+		var gender = $('#select-gender').val();
+		var student = $('#select-student').val();
+		var ir = $('#select-ir').val();
 
-    if (age && gender && student && ir) {
-        if (isNaN(age)) {
-            $('#error-p').text('Please ensure that you have entered a valid age');
-            $('.alert').show();
-        } else {
-            var data = {
-                age: age,
-                gender: gender,
-                student: student,
-                ir: ir
-            };
-            sendRegister(data);
-        }
-    } else {
-        $('.alert').show();
-    }
+		if (age && gender && student && ir) {
+			if (isNaN(age)) {
+				$('#error-p').text('Please ensure that you have entered a valid age');
+				$('.alert').show();
+			} else {
+				var data = {
+					age: age,
+					gender: gender,
+					student: student,
+					ir: ir
+				};
+				sendRegister(data);
+			}
+		} else {
+			$('.alert').show();
+		}
+	}
 });
 
 function sendRegister(data) {

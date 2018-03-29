@@ -1,5 +1,3 @@
-var tasks = ["Jaguar", "Motorola", "Apple",
-	"Convolution", "Samsung", "Toyota", "Gradient"];
 
 $(document).ready(function () {
     $('.spinner').hide();
@@ -25,15 +23,22 @@ $(document).on("keyup", '#query-input', function (event) {
 });
 
 $(document).on('click', '#finish-button', function () {
-    clicked['found'] ++;
+    clicked ++;
 
-    if (clicked['found'] <= 1) {
+    if (clicked <= 1) {
         var data = {
             click: linksClicked,
             hover: linksHovered,
             time: hours * 3600 + minutes * 60 + seconds,
             status: 1
         };
+
+	    if (data.time === 0) {
+	        $('#error-int').text('Try to find an answer before moving to the next task!');
+	        $('.alert').show();
+	        clicked = 0;
+	        return;
+        }
         var result = $.ajax({
             url: "/interaction/finish",
             type: "post",
@@ -58,15 +63,23 @@ $(document).on('click', '#finish-button', function () {
 });
 
 $(document).on('click', '#abandon-button', function () {
-    clicked['giveUp'] ++;
+    clicked ++;
 
-    if (clicked['giveUp'] <= 1) {
+    if (clicked <= 1) {
         var data = {
             click: linksClicked,
             hover: linksHovered,
             time: hours * 3600 + minutes * 60 + seconds,
             status: 0
         };
+
+	    if (data.time === 0) {
+		    $('#error-int').text('You will easily find an answer for your task! Don\'t give up yet!');
+		    $('.alert').show();
+		    clicked = 0;
+		    return;
+	    }
+
         var result = $.ajax({
             url: "/interaction/finish",
             type: "post",

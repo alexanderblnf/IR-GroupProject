@@ -42,7 +42,7 @@ function createTooltip(response) {
 $(document).ready(function () {
     var response = $.ajax({
         url: "/interaction/getTime",
-        type: "GET",
+        type: "GET"
     });
 
     response.done(function (res) {
@@ -73,9 +73,9 @@ $(document).on('click', 'a', function () {
    console.log(linksClicked);
 });
 
-$(document).on('click', '#search-button', function () {
-    $('#container').find('*').not('.spinner-div').remove();
-});
+// $(document).on('click', '#search-button', function () {
+//     $('#container').find('*').not('.spinner-div').remove();
+// });
 
 $(window).on('beforeunload', function () {
     if (seconds > 0 || minutes > 0 || hours > 0) {
