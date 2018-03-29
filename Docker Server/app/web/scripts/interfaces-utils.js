@@ -1,18 +1,23 @@
 var lastQuery;
 var spinner = true;
-var clicked = {
-	found: 0,
-	giveUp: 0,
-};
+var clicked = 0;
+
+$(document).ready(function () {
+	$('.alert').hide();
+	$('.alert').alert();
+});
 
 function checkQuery(query) {
 	if (query.trim().length === 0) {
-		alert("Please insert a query with minim length of 1");
+		$('#error-int').text('Please insert a query with minim length of 1');
+		$('.alert').show();
 		return null;
 	} else if (lastQuery === query) {
-		alert("Please change the query in order to make another search");
+		$('#error-int').text('Please change the query in order to make another search');
+		$('.alert').show();
 		return null;
 	} else {
+		$('.alert').hide();
 		lastQuery = query;
 	}
 
