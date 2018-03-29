@@ -35,8 +35,9 @@ module.exports = function (app) {
         } else {
             if (req.session.currentInterface === -1) {
                 res.sendFile(path.join(__dirname, '../web/finish.html'))
+            } else {
+                res.sendFile(path.join(__dirname, '../web/index.html'))
             }
-            res.sendFile(path.join(__dirname, '../web/index.html'))
         }
     });
 
