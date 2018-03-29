@@ -119,12 +119,16 @@ module.exports = function (app) {
                 res.send(response);
             }
         } else {
-            return next();
+	        res.redirect('/');
         }
     });
 
     app.get('/register.html', function (req, res) {
-        res.sendFile(path.join(__dirname, '../web/register.html'));
+        if (req.session.username) {
+	        res.redirect('/');
+        } else {
+	        res.sendFile(path.join(__dirname, '../web/register.html'));
+        }
     });
 
     var search = require('./modules/search/searchRoutes');

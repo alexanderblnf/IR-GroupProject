@@ -1,6 +1,7 @@
 #task-container {
-    margin-bottom: 1vh;
+    margin-bottom: 4vh;
     font-size: 1.3em;
+    margin-top: 2vh;
 }
 
 #search-input-container {
@@ -13,4 +14,8 @@
 
 #search-button {
     font-size: 1em;
+}
+
+.align {
+    display: flex;
 }
