@@ -57,7 +57,13 @@ exports.finish = function (options, req, res) {
             } else {
                 response['code'] = 200;
                 response['response'] = result;
+
+                if (req.session.task % 7 === 0) {
+                    req.session.currentInterface = (req.session.currentInterface === 0) ? 1 : -1;
+                }
+
                 req.session.task ++;
+
                 req.session.queries = 0;
                 req.session.time = {
                     hours: 0,

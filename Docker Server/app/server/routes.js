@@ -22,7 +22,7 @@ module.exports = function (app) {
     app.get(['/1', '/2', '/3', '/4', '/'], function (req, res) {
         var rootUrl = req.url.length > 1 ? req.url[1] : null;
         if (!req.session.username) {
-            console.log(rootUrl);
+
             if (rootUrl && rootUrl in pathMapping) {
                 req.session.experiment = rootUrl;
                 req.session.currentInterface = 0;
@@ -30,8 +30,12 @@ module.exports = function (app) {
                 req.session.experiment = Math.floor((Math.random() * 4) + 1);
                 req.session.currentInterface = 0;
             }
+
             res.redirect('/register.html');
         } else {
+            if (req.session.currentInterface === -1) {
+                res.sendFile(path.join(__dirname, '../web/finish.html'))
+            }
             res.sendFile(path.join(__dirname, '../web/index.html'))
         }
     });
