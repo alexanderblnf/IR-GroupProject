@@ -19,3 +19,7 @@ body {
     margin-left: 1vw;
     margin-top: 2vh;
 }
+
+#search-button {
+    border: 1px solid #94979a;
+}

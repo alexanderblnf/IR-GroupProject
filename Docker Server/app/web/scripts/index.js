@@ -25,57 +25,66 @@ $(document).on("keyup", '#query-input', function (event) {
 });
 
 $(document).on('click', '#finish-button', function () {
-	var data = {
-        click: linksClicked,
-        hover: linksHovered,
-        time: hours * 3600 + minutes * 60 + seconds,
-        status: 1
-    };
-	var result = $.ajax({
-		url: "/interaction/finish",
-		type: "post",
-		data: JSON.stringify(data),
-        contentType: 'application/json'
-	});
+    clicked['found'] ++;
 
-	result.done(function (res) {
-	    hours = 0; minutes = 0; seconds = 0;
-		if (res.code === 200) {
-            location.reload();
-        } else {
-			console.log(res.response);
-		}
-	});
+    if (clicked['found'] <= 1) {
+        var data = {
+            click: linksClicked,
+            hover: linksHovered,
+            time: hours * 3600 + minutes * 60 + seconds,
+            status: 1
+        };
+        var result = $.ajax({
+            url: "/interaction/finish",
+            type: "post",
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        });
 
-	result.fail(function (xhr) {
-		console.log(xhr.responseText);
-	})
+        result.done(function (res) {
+            hours = 0; minutes = 0; seconds = 0;
+            if (res.code === 200) {
+                location.reload();
+            } else {
+                console.log(res.response);
+            }
+        });
+
+        result.fail(function (xhr) {
+            console.log(xhr.responseText);
+        })
+    }
+
 });
 
 $(document).on('click', '#abandon-button', function () {
-    var data = {
-        click: linksClicked,
-        hover: linksHovered,
-        time: hours * 3600 + minutes * 60 + seconds,
-        status: 0
-    };
-    var result = $.ajax({
-        url: "/interaction/finish",
-        type: "post",
-        data: JSON.stringify(data),
-        contentType: 'application/json'
-    });
+    clicked['giveUp'] ++;
 
-    result.done(function (res) {
-        hours = 0; minutes = 0; seconds = 0;
-        if (res.code === 200) {
-            location.reload();
-        } else {
-            console.log(res.response);
-        }
-    });
+    if (clicked['giveUp'] <= 1) {
+        var data = {
+            click: linksClicked,
+            hover: linksHovered,
+            time: hours * 3600 + minutes * 60 + seconds,
+            status: 0
+        };
+        var result = $.ajax({
+            url: "/interaction/finish",
+            type: "post",
+            data: JSON.stringify(data),
+            contentType: 'application/json'
+        });
 
-    result.fail(function (xhr) {
-        console.log(xhr.responseText);
-    })
+        result.done(function (res) {
+            hours = 0; minutes = 0; seconds = 0;
+            if (res.code === 200) {
+                location.reload();
+            } else {
+                console.log(res.response);
+            }
+        });
+
+        result.fail(function (xhr) {
+            console.log(xhr.responseText);
+        })
+    }
 });

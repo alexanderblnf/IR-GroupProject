@@ -11,7 +11,7 @@ h4 {
     display: inline-block;
 }
 
-#register-div, #age-div, #student-div, #gender-div {
+#register-div, #age-div, #student-div, #gender-div, #explanation-div {
     margin-bottom: 3vh;
 }
 

@@ -1,9 +1,9 @@
 var lastQuery;
 var spinner = true;
-
-function loadSpinner() {
-
-}
+var clicked = {
+	found: 0,
+	giveUp: 0,
+};
 
 function checkQuery(query) {
 	if (query.trim().length === 0) {
